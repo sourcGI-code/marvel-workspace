@@ -1,0 +1,10 @@
+import {build} from 'esbuild';
+import {mkdir,copyFile,writeFile,readFile,rm} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const root=path.dirname(fileURLToPath(import.meta.url));
+await rm(path.join(root,'dist'),{recursive:true,force:true});await mkdir(path.join(root,'dist'),{recursive:true});
+await build({entryPoints:[path.join(root,'src/app.jsx')],bundle:true,minify:true,format:'esm',target:['chrome109','safari16'],outdir:path.join(root,'dist'),entryNames:'app-[hash]',assetNames:'asset-[hash]',metafile:true,write:true}).then(async r=>{const js=Object.keys(r.metafile.outputs).find(x=>x.endsWith('.js'));const css=Object.keys(r.metafile.outputs).find(x=>x.endsWith('.css'));let html=await readFile(path.join(root,'index.html'),'utf8');html=html.replace('__SCRIPT__',path.basename(js)).replace('__STYLE__',path.basename(css));await writeFile(path.join(root,'dist/index.html'),html);});
+await writeFile(path.join(root,'dist/.nojekyll'),'');
+await copyFile(path.join(root,'dist/index.html'),path.join(root,'dist/404.html'));
+console.log('GitHub Pages dashboard built. No workspace data or credentials are bundled.');
