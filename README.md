@@ -8,6 +8,6 @@ Features: workspace home, task boards, table and Kanban views, calendar, notes, 
 
 ## Build
 
-Run `npm ci` and `npm run build` inside `source/`. Copy the resulting `source/dist/` files to the repository root to publish with GitHub Pages. Backend code is maintained separately in the private schedule repository.
+Run `npm ci` and `npm run build` inside `source/`. Push source changes to `main`; GitHub Actions builds, tests, and publishes `source/dist/` automatically. Backend code is maintained separately in the private schedule repository.
 
 The website does not require a user account. Anyone with the private team link can read and edit that workspace, so share the link only with intended teammates. New visitors without a valid link cannot read company records. Browser notifications require permission and an open page; imported calendar alarms run in the user's calendar app. Email delivery and in-app Astra require their server-side connections.
